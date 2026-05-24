@@ -1,9 +1,7 @@
 import streamlit as st
 import google.genai as genai
 
-google_api_key = st.secrets["google"]["api_key"]
-
-client = genai.Client(api_key=google_api_key)
+client = genai.Client(api_key=st.secrets["GOOGLE_API_KEY"])
 
 st.title("BMI Calculator with AI Nutritionist")
 
@@ -19,8 +17,6 @@ st.write(f"Your BMI is: {bmi:.2f}")
 prompt = f"Act like an expert nutritionist, comment on the BMI with the following data: height as {ht}, weight as {wt}, and BMI as {bmi}"
 
 # Generate content from Gemini
-response = client.models.generate_content(
-    model="gemini-3.5-flash",
-    contents= prompt)
-
-st.write(response.text)
+if st.button("Take Ai Advice"):
+    response = client.models.generate_content(model="gemini-2.5-flash",contents= prompt)
+    st.write(response.text)
